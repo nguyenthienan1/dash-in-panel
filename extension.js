@@ -21,7 +21,7 @@ class DashPanel extends Dash.Dash {
         this.remove_child(this._dashContainer);
 
         this.iconSize = this._settings.get_int('icon-size');
-        this.showAppsButton.set_track_hover(false);
+        this.showAppsButton.track_hover = false;
         this._showAppsIcon.icon.setIconSize(this.iconSize);
         this.showAppsButton.add_style_class_name('dash-in-panel-show-apps-button');
         if (!this._settings.get_boolean('show-apps'))
@@ -82,8 +82,8 @@ class DashButton extends PanelMenu.Button {
 
         this._settings = settings;
 
-        this.set_track_hover(false);
-
+        this.reactive = false;
+        
         this._timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, () => {
             this._dash = new DashPanel(this._settings);
             this.add_child(this._dash._dashContainer);
