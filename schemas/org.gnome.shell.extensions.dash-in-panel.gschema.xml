@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schemalist>
+    <schema path="/org/gnome/shell/extensions/dash-in-panel/" id="org.gnome.shell.extensions.dash-in-panel">
+
+    <key type="b" name="show-dash">
+        <default>true</default>
+        <summary>Show dash in overview</summary>
+    </key>
+
+    <key type="b" name="show-apps">
+        <default>true</default>
+        <summary>Show app grid button</summary>
+    </key>
+
+    <key type="b" name="scroll-panel">
+        <default>true</default>
+        <summary>Scroll on panel to change workspace</summary>
+    </key>
+
+    <key type="b" name="move-date">
+        <default>true</default>
+        <summary>Move date menu to the right</summary>
+    </key>
+
+    <key type="b" name="colored-dot">
+        <default>true</default>
+        <summary>Colored running indicator</summary>
+    </key>
+
+    <key type="i" name="icon-size">
+        <default>20</default>
+        <summary>Icon size</summary>
+    </key>
+
+    </schema>
+</schemalist>
