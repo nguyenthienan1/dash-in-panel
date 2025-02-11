@@ -1,5 +1,5 @@
 {
-  "description": "Dash in top panel.\n\n Does use native GNOME Shell dash object. Very light extension. Only 170 lines of code.\n\n Some settings.",
+  "description": "Dash in top panel.\n\n Does use native GNOME Shell dash object. Very light extension. Only 180 lines of code.\n\n Some settings.",
   "name": "Dash in Panel",
   "shell-version": ["46", "47", "48"],
   "url": "https://github.com/fthx/dash-in-panel",

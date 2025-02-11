@@ -16,47 +16,51 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         window.add(page);
 
 
-        const group1 = new Adw.PreferencesGroup();
-        page.add(group1);
+        const groupOverview = new Adw.PreferencesGroup();
+        page.add(groupOverview);
 
         const showOverview = new Adw.SwitchRow({
             title: 'Show overview at start-up',
         });
-        group1.add(showOverview);
+        groupOverview.add(showOverview);
         window._settings.bind('show-overview', showOverview, 'active', Gio.SettingsBindFlags.DEFAULT);
 
         const showDash = new Adw.SwitchRow({
             title: 'Show dash in overview',
         });
-        group1.add(showDash);
+        groupOverview.add(showDash);
         window._settings.bind('show-dash', showDash, 'active', Gio.SettingsBindFlags.DEFAULT);
+
+
+        const groupPanel = new Adw.PreferencesGroup();
+        page.add(groupPanel);
 
         const showApps = new Adw.SwitchRow({
             title: 'Show app grid button',
         });
-        group1.add(showApps);
+        groupPanel.add(showApps);
         window._settings.bind('show-apps', showApps, 'active', Gio.SettingsBindFlags.DEFAULT);
 
         const scrollPanel = new Adw.SwitchRow({
             title: 'Scroll on panel to change workspace',
         });
-        group1.add(scrollPanel);
+        groupPanel.add(scrollPanel);
         window._settings.bind('scroll-panel', scrollPanel, 'active', Gio.SettingsBindFlags.DEFAULT);
 
         const moveDate = new Adw.SwitchRow({
             title: 'Move date to the right',
         });
-        group1.add(moveDate);
+        groupPanel.add(moveDate);
         window._settings.bind('move-date', moveDate, 'active', Gio.SettingsBindFlags.DEFAULT);
 
 
-        const group2 = new Adw.PreferencesGroup();
-        page.add(group2);
+        const groupStyle = new Adw.PreferencesGroup();
+        page.add(groupStyle);
 
         const coloredDot = new Adw.SwitchRow({
             title: 'Colored running app indicator',
         });
-        group2.add(coloredDot);
+        groupStyle.add(coloredDot);
         window._settings.bind('colored-dot', coloredDot, 'active', Gio.SettingsBindFlags.DEFAULT);
 
         const adjustmentPanelHeight = new Gtk.Adjustment({
@@ -69,7 +73,7 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
             title: 'Top panel height (default: 32)',
             adjustment: adjustmentPanelHeight
         });
-        group2.add(panelHeight);
+        groupStyle.add(panelHeight);
         window._settings.bind('panel-height', panelHeight, 'value', Gio.SettingsBindFlags.DEFAULT);
 
         const adjustmentIconSize = new Gtk.Adjustment({
@@ -82,7 +86,7 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
             title: 'Icon size (default: 20)',
             adjustment: adjustmentIconSize
         });
-        group2.add(iconSize);
+        groupStyle.add(iconSize);
         window._settings.bind('icon-size', iconSize, 'value', Gio.SettingsBindFlags.DEFAULT);
     }
 }
