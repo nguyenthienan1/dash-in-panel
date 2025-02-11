@@ -11,6 +11,8 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 
+const GNOME_SHELL_PANEL_HEIGHT = 32;
+
 const DashPanel = GObject.registerClass(
 class DashPanel extends Dash.Dash {
     _init(settings) {
@@ -152,15 +154,16 @@ export default class DashInPanelExtension extends Extension {
     }
 
     disable() {
+        this._settings.disconnectObject(this);
+        this._settings = null;
+        
         this._dashButton?.destroy();
         this._dashButton = null;
 
         Main.overview.dash.show();
-        this._moveDate(false);
-        Main.panel.height = 32;
-        Main.panel.disconnectObject(this);
 
-        this._settings.disconnectObject(this);
-        this._settings = null;
+        this._moveDate(false);
+        Main.panel.disconnectObject(this);
+        Main.panel.height = GNOME_SHELL_PANEL_HEIGHT;
     }
 }

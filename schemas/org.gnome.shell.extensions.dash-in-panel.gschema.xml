@@ -4,7 +4,7 @@
     <schema path="/org/gnome/shell/extensions/dash-in-panel/" id="org.gnome.shell.extensions.dash-in-panel">
 
     <key type="b" name="show-dash">
-        <default>true</default>
+        <default>false</default>
         <summary>Show dash in overview</summary>
     </key>
 
