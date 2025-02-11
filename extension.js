@@ -144,8 +144,10 @@ export default class DashInPanelExtension extends Extension {
         if (this._settings.get_boolean('move-date'))
             this._moveDate(true);
 
-        if (!this._settings.get_boolean('show-dash'))
+        if (!this._settings.get_boolean('show-dash')) {
+            Main.overview.dash.height = 0;
             Main.overview.dash.hide();
+        }
 
         this._dashButton = new DashButton(this._settings);
         Main.panel.addToStatusArea('dash', this._dashButton, -1, 'left');
@@ -161,6 +163,8 @@ export default class DashInPanelExtension extends Extension {
         this._dashButton = null;
 
         Main.overview.dash.show();
+        Main.overview.dash.height = -1;
+        Main.overview.dash.setMaxSize(-1, -1);
 
         this._moveDate(false);
         Main.panel.disconnectObject(this);
