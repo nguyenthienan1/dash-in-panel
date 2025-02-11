@@ -156,6 +156,7 @@ export default class DashInPanelExtension extends Extension {
 
         Main.overview.dash.show();
         this._moveDate(false);
+        Main.panel.height = 32;
         Main.panel.disconnectObject(this);
 
         this._settings.disconnectObject(this);
