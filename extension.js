@@ -45,6 +45,7 @@ class DashPanel extends Dash.Dash {
             if (this._separator)
                 this._separator.add_style_class_name('dash-in-panel-separator');
 
+            this._timeout = null;
             return GLib.SOURCE_REMOVE;
         });
     }
@@ -88,6 +89,7 @@ class DashButton extends PanelMenu.Button {
             this._dash = new DashPanel(this._settings);
             this.add_child(this._dash._dashContainer);
 
+            this._timeout = null;
             return GLib.SOURCE_REMOVE;
         });
 
