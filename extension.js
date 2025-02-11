@@ -83,7 +83,7 @@ class DashButton extends PanelMenu.Button {
         this._settings = settings;
 
         this.reactive = false;
-        
+
         this._timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, () => {
             this._dash = new DashPanel(this._settings);
             this.add_child(this._dash._dashContainer);
@@ -132,6 +132,8 @@ export default class DashInPanelExtension extends Extension {
 
     enable() {
         this._settings = this.getSettings();
+
+        Main.panel.height = this._settings.get_int('panel-height');
 
         if (this._settings.get_boolean('scroll-panel'))
             Main.panel.connectObject('scroll-event', (actor, event) => Main.wm.handleWorkspaceScroll(event), this);

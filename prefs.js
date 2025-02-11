@@ -53,14 +53,27 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         group2.add(coloredDot);
         window._settings.bind('colored-dot', coloredDot, 'active', Gio.SettingsBindFlags.DEFAULT);
 
+        const adjustmentPanelHeight = new Gtk.Adjustment({
+            lower: 16,
+            upper: 64,
+            step_increment: 1,
+        });
+
+        const panelHeight = new Adw.SpinRow({
+            title: 'Top panel height (default: 32)',
+            adjustment: adjustmentPanelHeight
+        });
+        group2.add(panelHeight);
+        window._settings.bind('panel-height', panelHeight, 'value', Gio.SettingsBindFlags.DEFAULT);
+
         const adjustmentIconSize = new Gtk.Adjustment({
             lower: 12,
-            upper: 48,
+            upper: 56,
             step_increment: 1,
         });
 
         const iconSize = new Adw.SpinRow({
-            title: 'Icon size',
+            title: 'Icon size (default: 20)',
             adjustment: adjustmentIconSize
         });
         group2.add(iconSize);

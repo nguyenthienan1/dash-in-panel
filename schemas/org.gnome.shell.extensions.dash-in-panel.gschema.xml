@@ -28,6 +28,11 @@
         <summary>Colored running indicator</summary>
     </key>
 
+    <key type="i" name="panel-height">
+        <default>32</default>
+        <summary>Top panel height</summary>
+    </key>
+
     <key type="i" name="icon-size">
         <default>20</default>
         <summary>Icon size</summary>
