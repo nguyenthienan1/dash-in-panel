@@ -3,6 +3,11 @@
 <schemalist>
     <schema path="/org/gnome/shell/extensions/dash-in-panel/" id="org.gnome.shell.extensions.dash-in-panel">
 
+    <key type="b" name="show-overview">
+        <default>false</default>
+        <summary>Show overview at start-up</summary>
+    </key>
+
     <key type="b" name="show-dash">
         <default>false</default>
         <summary>Show dash in overview</summary>

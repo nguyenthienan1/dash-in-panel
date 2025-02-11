@@ -19,6 +19,12 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         const group1 = new Adw.PreferencesGroup();
         page.add(group1);
 
+        const showOverview = new Adw.SwitchRow({
+            title: 'Show overview at start-up',
+        });
+        group1.add(showOverview);
+        window._settings.bind('show-overview', showOverview, 'active', Gio.SettingsBindFlags.DEFAULT);
+
         const showDash = new Adw.SwitchRow({
             title: 'Show dash in overview',
         });

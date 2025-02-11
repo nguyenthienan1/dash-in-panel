@@ -149,6 +149,11 @@ export default class DashInPanelExtension extends Extension {
             Main.overview.dash.hide();
         }
 
+        if (!this._settings.get_boolean('show-overview')) {
+            if (Main.layoutManager._startingUp)
+                Main.layoutManager.connectObject('startup-complete', () => Main.overview.hide(), this);
+        }   
+
         this._dashButton = new DashButton(this._settings);
         Main.panel.addToStatusArea('dash', this._dashButton, -1, 'left');
 
@@ -161,6 +166,8 @@ export default class DashInPanelExtension extends Extension {
         
         this._dashButton?.destroy();
         this._dashButton = null;
+
+        Main.layoutManager.disconnectObject(this);
 
         Main.overview.dash.show();
         Main.overview.dash.height = -1;
