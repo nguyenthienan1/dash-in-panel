@@ -90,6 +90,8 @@ class DashButton extends PanelMenu.Button {
 
             return GLib.SOURCE_REMOVE;
         });
+
+        this.connectObject('destroy', this._destroy.bind(this), this);
     }
 
     _destroy() {
@@ -109,9 +111,6 @@ export default class DashInPanelExtension extends Extension {
     }
 
     _moveDate(active) {
-        if (Main.sessionMode.isLocked)
-            return;
-
         let panel = Main.sessionMode.panel;
 
         if (active) {
@@ -151,7 +150,7 @@ export default class DashInPanelExtension extends Extension {
     }
 
     disable() {
-        this._dashButton?._destroy();
+        this._dashButton?.destroy();
         this._dashButton = null;
 
         Main.overview.dash.show();
