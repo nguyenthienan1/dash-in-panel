@@ -44,8 +44,7 @@ class DashPanel extends Dash.Dash {
             child.first_child._dot.add_style_class_name('dash-in-panel-icon-colored-dot');
 
         this._timeout = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
-            if (this._separator)
-                this._separator.add_style_class_name('dash-in-panel-separator');
+            this._separator?.add_style_class_name('dash-in-panel-separator');
 
             this._timeout = null;
             return GLib.SOURCE_REMOVE;
