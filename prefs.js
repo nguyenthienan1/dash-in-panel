@@ -41,6 +41,12 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         groupPanel.add(showApps);
         window._settings.bind('show-apps', showApps, 'active', Gio.SettingsBindFlags.DEFAULT);
 
+        const showLabel = new Adw.SwitchRow({
+            title: 'Show app label on hover',
+        });
+        groupPanel.add(showLabel);
+        window._settings.bind('show-label', showLabel, 'active', Gio.SettingsBindFlags.DEFAULT);
+
         const scrollPanel = new Adw.SwitchRow({
             title: 'Scroll on panel to change workspace',
         });

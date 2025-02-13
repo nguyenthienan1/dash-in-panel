@@ -33,22 +33,36 @@ class DashPanel extends Dash.Dash {
         this.showAppsButton.connectObject('clicked', this._onShowAppsClick.bind(this), this);
     }
 
-    _setStyle(child) {
-        if (!child?.first_child?._dot)
+    _setStyle(item) {
+        if (!item?.child?._dot)
             return;
 
-        child.first_child.set_style_class_name('dash-in-panel-icon');
-        child.first_child._dot.width = this.iconSize;
-        child.first_child._dot.height += 1;
+        item.child.set_style_class_name('dash-in-panel-icon');
+        item.child._dot.width = this.iconSize;
+        item.child._dot.height += 1;
         if (this._settings.get_boolean('colored-dot'))
-            child.first_child._dot.add_style_class_name('dash-in-panel-icon-colored-dot');
+            item.child._dot.add_style_class_name('dash-in-panel-icon-colored-dot');
 
-        this._timeout = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
-            this._separator?.add_style_class_name('dash-in-panel-separator');
+        this._timeoutSeparator = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+                this._separator?.add_style_class_name('dash-in-panel-separator');
 
-            this._timeout = null;
-            return GLib.SOURCE_REMOVE;
-        });
+                this._timeoutSeparator = null;
+                return GLib.SOURCE_REMOVE;
+            });
+
+        if (this._settings.get_boolean('show-label'))
+            item.label?.connectObject('notify::visible', () => {
+                    this._timeoutLabel = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
+                        if (!item?.label)
+                            return;
+
+                        const yOffset = item.label.get_theme_node().get_length('-y-offset');
+                        item.label.y += 2 * item.label.height + 2 * yOffset;
+
+                        this._timeoutLabel = null;
+                        return GLib.SOURCE_REMOVE;
+                    });
+                }, this);
     }
 
     _onShowAppsClick() {
@@ -64,9 +78,14 @@ class DashPanel extends Dash.Dash {
     }
 
     _destroy() {
-        if (this._timeout) {
-            GLib.Source.remove(this._timeout);
-            this._timeout = null;
+        if (this._timeoutSeparator) {
+            GLib.Source.remove(this._timeoutSeparator);
+            this._timeoutSeparator = null;
+        }
+
+        if (this._timeoutLabel) {
+            GLib.Source.remove(this._timeoutLabel);
+            this._timeoutLabel = null;
         }
 
         this._box?.disconnectObject(this);
