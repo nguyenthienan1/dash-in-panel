@@ -136,11 +136,11 @@ export default class DashInPanelExtension extends Extension {
         let panel = Main.sessionMode.panel;
 
         if (active) {
-            panel.center = panel.center.filter(item => item != 'dateMenu')
-            panel.right.splice(-1, 0, 'dateMenu');
+            panel.center = panel.center.filter(item => item !== 'dateMenu');
+            panel.right.unshift('dateMenu');
         } else {
-            panel.right = panel.right.filter(item => item != 'dateMenu')
-            panel.center.push('dateMenu');
+            panel.right = panel.right.filter(item => item !== 'dateMenu');
+            panel.center.unshift('dateMenu');
         }
 
         Main.panel._updatePanel();
