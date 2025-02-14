@@ -105,11 +105,11 @@ class DashButton extends PanelMenu.Button {
 
         this.reactive = false;
 
-        this._timeout = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, () => {
+        this._timeoutDash = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 500, () => {
             this._dash = new DashPanel(this._settings);
             this.add_child(this._dash._dashContainer);
 
-            this._timeout = null;
+            this._timeoutDash = null;
             return GLib.SOURCE_REMOVE;
         });
 
@@ -117,9 +117,9 @@ class DashButton extends PanelMenu.Button {
     }
 
     _destroy() {
-        if (this._timeout) {
-            GLib.Source.remove(this._timeout);
-            this._timeout = null;
+        if (this._timeoutDash) {
+            GLib.Source.remove(this._timeoutDash);
+            this._timeoutDash = null;
         }
 
         this._dash?._destroy();
@@ -167,10 +167,8 @@ export default class DashInPanelExtension extends Extension {
             Main.overview.dash.hide();
         }
 
-        if (!this._settings.get_boolean('show-overview')) {
-            if (Main.layoutManager._startingUp)
-                Main.layoutManager.connectObject('startup-complete', () => Main.overview.hide(), this);
-        }
+        if (!this._settings.get_boolean('show-overview') && Main.layoutManager._startingUp)
+            Main.layoutManager.connectObject('startup-complete', () => Main.overview.hide(), this);
 
         this._dashButton = new DashButton(this._settings);
         Main.panel.addToStatusArea('dash', this._dashButton, -1, 'left');
