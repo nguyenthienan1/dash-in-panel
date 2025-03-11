@@ -27,6 +27,7 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
 
         const showDash = new Adw.SwitchRow({
             title: 'Show dash in overview',
+            subtitle: 'Disable Ubuntu Dock / Dash to Dock for the hiding to work',
         });
         groupOverview.add(showDash);
         window._settings.bind('show-dash', showDash, 'active', Gio.SettingsBindFlags.DEFAULT);
