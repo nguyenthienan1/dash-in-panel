@@ -91,6 +91,7 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
 
         const panelHeight = new Adw.SpinRow({
             title: 'Top panel height (default: 32px)',
+            subtitle: 'Visible value will be changed according to the scale factor',
             adjustment: adjustmentPanelHeight
         });
         groupStyle.add(panelHeight);
@@ -104,6 +105,7 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
 
         const iconSize = new Adw.SpinRow({
             title: 'Icon size (default: 20px)',
+            subtitle: 'Visible value will be changed according to the scale factor',
             adjustment: adjustmentIconSize
         });
         groupStyle.add(iconSize);

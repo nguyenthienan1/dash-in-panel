@@ -21,6 +21,7 @@ class DashPanel extends Dash.Dash {
         this.remove_child(this._dashContainer);
 
         this.iconSize = this._settings.get_int('icon-size');
+
         this.showAppsButton.track_hover = false;
         this._showAppsIcon.icon.setIconSize(this.iconSize);
         this.showAppsButton.add_style_class_name('dash-in-panel-show-apps-button');
@@ -40,8 +41,9 @@ class DashPanel extends Dash.Dash {
         let margin = this._settings.get_int('button-margin');
         item.child.set_style(`margin-left: ${margin}px; margin-right: ${margin}px;`);
 
-        item.child._dot.width = this.iconSize;
-        item.child._dot.height += 1;
+        let scaleFactor = global.display.get_monitor_scale(global.display.get_primary_monitor());
+        item.child._dot.width = this.iconSize * scaleFactor;
+        item.child._dot.height += scaleFactor;
         if (this._settings.get_boolean('colored-dot'))
             item.child._dot.add_style_class_name('dash-in-panel-icon-colored-dot');
 
@@ -156,7 +158,8 @@ export default class DashInPanelExtension extends Extension {
     enable() {
         this._settings = this.getSettings();
 
-        Main.panel.height = this._settings.get_int('panel-height');
+        let scaleFactor = global.display.get_monitor_scale(global.display.get_primary_monitor());
+        Main.panel.height = this._settings.get_int('panel-height') * scaleFactor;
 
         if (this._settings.get_boolean('scroll-panel'))
             Main.panel.connectObject('scroll-event', (actor, event) => Main.wm.handleWorkspaceScroll(event), this);
@@ -176,6 +179,7 @@ export default class DashInPanelExtension extends Extension {
         Main.panel.addToStatusArea('dash', this._dashButton, -1, 'left');
 
         this._settings.connectObject('changed', this._restart.bind(this), this);
+        Main.layoutManager.connectObject('monitors-changed', this._restart.bind(this), this);
     }
 
     disable() {
