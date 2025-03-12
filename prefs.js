@@ -113,7 +113,7 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         });
 
         const iconSize = new Adw.SpinRow({
-            title: 'Icon size (default: 20px)',
+            title: 'Icon size',
             subtitle: 'Default: 20px\nVisible size will be changed according to the scale factor',
             adjustment: adjustmentIconSize
         });
