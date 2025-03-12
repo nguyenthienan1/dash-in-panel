@@ -38,6 +38,11 @@
         <summary>Colored running indicator</summary>
     </key>
 
+    <key type="i" name="button-margin">
+        <default>4</default>
+        <summary>App button margin</summary>
+    </key>
+
     <key type="i" name="panel-height">
         <default>32</default>
         <summary>Top panel height</summary>

@@ -36,6 +36,10 @@ class DashPanel extends Dash.Dash {
             return;
 
         item.child.set_style_class_name('dash-in-panel-icon');
+
+        let margin = this._settings.get_int('button-margin');
+        item.child.set_style(`margin-left: ${margin}px; margin-right: ${margin}px;`);
+
         item.child._dot.width = this.iconSize;
         item.child._dot.height += 1;
         if (this._settings.get_boolean('colored-dot'))

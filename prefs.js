@@ -70,6 +70,19 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         groupStyle.add(coloredDot);
         window._settings.bind('colored-dot', coloredDot, 'active', Gio.SettingsBindFlags.DEFAULT);
 
+        const adjustmentButtonMargin = new Gtk.Adjustment({
+            lower: 0,
+            upper: 20,
+            step_increment: 1,
+        });
+
+        const buttonMargin = new Adw.SpinRow({
+            title: 'App button margin (default: 4px)',
+            adjustment: adjustmentButtonMargin
+        });
+        groupStyle.add(buttonMargin);
+        window._settings.bind('button-margin', buttonMargin, 'value', Gio.SettingsBindFlags.DEFAULT);
+
         const adjustmentPanelHeight = new Gtk.Adjustment({
             lower: 16,
             upper: 64,
@@ -77,7 +90,7 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         });
 
         const panelHeight = new Adw.SpinRow({
-            title: 'Top panel height (default: 32)',
+            title: 'Top panel height (default: 32px)',
             adjustment: adjustmentPanelHeight
         });
         groupStyle.add(panelHeight);
@@ -90,7 +103,7 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         });
 
         const iconSize = new Adw.SpinRow({
-            title: 'Icon size (default: 20)',
+            title: 'Icon size (default: 20px)',
             adjustment: adjustmentIconSize
         });
         groupStyle.add(iconSize);
