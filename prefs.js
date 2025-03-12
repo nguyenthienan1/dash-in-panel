@@ -16,21 +16,27 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         window.add(page);
 
 
-        const groupOverview = new Adw.PreferencesGroup();
-        page.add(groupOverview);
+        const groupGlobal = new Adw.PreferencesGroup();
+        page.add(groupGlobal);
 
         const showOverview = new Adw.SwitchRow({
             title: 'Show overview at start-up',
         });
-        groupOverview.add(showOverview);
+        groupGlobal.add(showOverview);
         window._settings.bind('show-overview', showOverview, 'active', Gio.SettingsBindFlags.DEFAULT);
 
         const showDash = new Adw.SwitchRow({
             title: 'Show dash in overview',
             subtitle: 'Disable Ubuntu Dock / Dash to Dock for the hiding to work',
         });
-        groupOverview.add(showDash);
+        groupGlobal.add(showDash);
         window._settings.bind('show-dash', showDash, 'active', Gio.SettingsBindFlags.DEFAULT);
+
+        const moveDate = new Adw.SwitchRow({
+            title: 'Move date to the right',
+        });
+        groupGlobal.add(moveDate);
+        window._settings.bind('move-date', moveDate, 'active', Gio.SettingsBindFlags.DEFAULT);
 
 
         const groupPanel = new Adw.PreferencesGroup();
@@ -54,11 +60,12 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         groupPanel.add(scrollPanel);
         window._settings.bind('scroll-panel', scrollPanel, 'active', Gio.SettingsBindFlags.DEFAULT);
 
-        const moveDate = new Adw.SwitchRow({
-            title: 'Move date to the right',
+        const clickChanged = new Adw.SwitchRow({
+            title: 'Minimize focus app on click',
+            subtitle: 'This is disabled in original dash',
         });
-        groupPanel.add(moveDate);
-        window._settings.bind('move-date', moveDate, 'active', Gio.SettingsBindFlags.DEFAULT);
+        groupPanel.add(clickChanged);
+        window._settings.bind('click-changed', clickChanged, 'active', Gio.SettingsBindFlags.DEFAULT);
 
 
         const groupStyle = new Adw.PreferencesGroup();
@@ -66,6 +73,7 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
 
         const coloredDot = new Adw.SwitchRow({
             title: 'Colored running app indicator',
+            subtitle: 'Accent color is used',
         });
         groupStyle.add(coloredDot);
         window._settings.bind('colored-dot', coloredDot, 'active', Gio.SettingsBindFlags.DEFAULT);
@@ -77,7 +85,8 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         });
 
         const buttonMargin = new Adw.SpinRow({
-            title: 'App button margin (default: 4px)',
+            title: 'App button margin',
+            subtitle: 'Default: 4px',
             adjustment: adjustmentButtonMargin
         });
         groupStyle.add(buttonMargin);
@@ -90,8 +99,8 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         });
 
         const panelHeight = new Adw.SpinRow({
-            title: 'Top panel height (default: 32px)',
-            subtitle: 'Visible value will be changed according to the scale factor',
+            title: 'Top panel height',
+            subtitle: 'Default: 32px\nVisible height will be changed according to the scale factor',
             adjustment: adjustmentPanelHeight
         });
         groupStyle.add(panelHeight);
@@ -105,7 +114,7 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
 
         const iconSize = new Adw.SpinRow({
             title: 'Icon size (default: 20px)',
-            subtitle: 'Visible value will be changed according to the scale factor',
+            subtitle: 'Default: 20px\nVisible size will be changed according to the scale factor',
             adjustment: adjustmentIconSize
         });
         groupStyle.add(iconSize);

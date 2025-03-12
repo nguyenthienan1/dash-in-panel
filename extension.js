@@ -1,8 +1,10 @@
 /*	Dash in panel - GNOME Shell extension - Copyright @fthx 2025 */
 
 
+import Clutter from 'gi://Clutter';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
+import Shell from 'gi://Shell';
 
 import * as Dash from 'resource:///org/gnome/shell/ui/dash.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
@@ -67,6 +69,33 @@ class DashPanel extends Dash.Dash {
                         return GLib.SOURCE_REMOVE;
                     });
                 }, this);
+
+        if (this._settings.get_boolean('click-changed'))
+            item.child.activate = (button) => this._onClicked(button, item);
+    }
+
+    _onClicked(button, item) {
+        let event = Clutter.get_current_event();
+        let modifiers = event ? event.get_state() : 0;
+        let isMiddleButton = button && button === Clutter.BUTTON_MIDDLE;
+        let isCtrlPressed = (modifiers & Clutter.ModifierType.CONTROL_MASK) !== 0;
+        let openNewWindow = item.child.app?.can_open_new_window() &&
+                            item.child.app?.state === Shell.AppState.RUNNING &&
+                            (isCtrlPressed || isMiddleButton);
+
+        if (item.child.app?.state === Shell.AppState.STOPPED || openNewWindow)
+            item.child.animateLaunch();
+
+        if (openNewWindow)
+            item.child.app?.open_new_window(-1);
+        else {
+            if (Shell.WindowTracker.get_default().focus_app === item.child.app)
+                global.display.focus_window?.minimize();
+            else
+                item.child.app?.activate();
+        }
+
+        Main.overview.hide();
     }
 
     _onShowAppsClick() {
