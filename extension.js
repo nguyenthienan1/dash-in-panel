@@ -60,8 +60,8 @@ class DashPanel extends Dash.Dash {
                         if (!item?.label)
                             return;
 
-                        const yOffset = item.label.get_theme_node().get_length('-y-offset');
-                        item.label.y += 2 * item.label.height + 2 * yOffset + Main.panel.height - 32;
+                        let yOffset = item.label.get_theme_node().get_length('-y-offset');
+                        item.label.y += 2 * item.label.height + 2 * yOffset;
 
                         this._timeoutLabel = null;
                         return GLib.SOURCE_REMOVE;
