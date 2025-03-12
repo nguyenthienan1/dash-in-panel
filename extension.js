@@ -27,7 +27,7 @@ class DashPanel extends Dash.Dash {
         if (!this._settings.get_boolean('show-apps'))
             this.showAppsButton.hide();
 
-        this._box.connectObject('child-added', (actor, child) => this._setStyle(child), this);
+        this._box.connectObject('child-added', (actor, item) => this._setStyle(item), this);
         this.showAppsButton.connectObject('clicked', this._onShowAppsClick.bind(this), this);
     }
 
