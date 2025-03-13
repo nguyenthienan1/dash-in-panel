@@ -85,8 +85,8 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         });
 
         const buttonMargin = new Adw.SpinRow({
-            title: 'App button margin',
-            subtitle: 'Default: 4px',
+            title: 'App button horizontal margin',
+            subtitle: 'Default: 2px',
             adjustment: adjustmentButtonMargin
         });
         groupStyle.add(buttonMargin);

@@ -24,9 +24,9 @@ class DashPanel extends Dash.Dash {
 
         this.iconSize = this._settings.get_int('icon-size');
 
-        this.showAppsButton.track_hover = false;
         this._showAppsIcon.icon.setIconSize(this.iconSize);
         this.showAppsButton.add_style_class_name('dash-in-panel-show-apps-button');
+        this.showAppsButton.track_hover = true;
         if (!this._settings.get_boolean('show-apps'))
             this.showAppsButton.hide();
 

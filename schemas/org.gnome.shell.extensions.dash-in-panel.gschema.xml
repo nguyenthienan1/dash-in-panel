@@ -44,7 +44,7 @@
     </key>
 
     <key type="i" name="button-margin">
-        <default>4</default>
+        <default>2</default>
         <summary>App button margin</summary>
     </key>
 
