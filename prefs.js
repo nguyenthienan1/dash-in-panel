@@ -42,6 +42,12 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         const groupPanel = new Adw.PreferencesGroup();
         page.add(groupPanel);
 
+        const showRunning = new Adw.SwitchRow({
+            title: 'Show only running apps',
+        });
+        groupPanel.add(showRunning);
+        window._settings.bind('show-running', showRunning, 'active', Gio.SettingsBindFlags.DEFAULT);
+
         const showApps = new Adw.SwitchRow({
             title: 'Show app grid button',
         });

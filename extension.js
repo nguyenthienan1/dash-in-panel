@@ -23,15 +23,9 @@ class DashPanel extends Dash.Dash {
         this.remove_child(this._dashContainer);
 
         this.iconSize = this._settings.get_int('icon-size');
-
-        this._showAppsIcon.icon.setIconSize(this.iconSize);
-        this.showAppsButton.add_style_class_name('dash-in-panel-show-apps-button');
-        this.showAppsButton.track_hover = true;
-        if (!this._settings.get_boolean('show-apps'))
-            this.showAppsButton.hide();
+        this._setShowAppsButton();
 
         this._box.connectObject('child-added', (actor, item) => this._setStyle(item), this);
-        this.showAppsButton.connectObject('clicked', this._onShowAppsClick.bind(this), this);
     }
 
     _setStyle(item) {
@@ -51,6 +45,8 @@ class DashPanel extends Dash.Dash {
 
         this._timeoutSeparator = GLib.idle_add(GLib.PRIORITY_DEFAULT_IDLE, () => {
                 this._separator?.add_style_class_name('dash-in-panel-separator');
+                if (this._settings.get_boolean('show-running'))
+                    this._separator?.hide();
 
                 this._timeoutSeparator = null;
                 return GLib.SOURCE_REMOVE;
@@ -72,6 +68,29 @@ class DashPanel extends Dash.Dash {
 
         if (this._settings.get_boolean('click-changed'))
             item.child.activate = (button) => this._onClicked(button, item);
+
+        if (this._settings.get_boolean('show-running')) {
+            this._setVisible(item);
+            item.child.app?.connectObject('notify::state', () => this._setVisible(item), this);
+        }
+    }
+
+    _setShowAppsButton() {
+        if (!this._settings.get_boolean('show-apps')) {
+            this.showAppsButton.hide();
+            return;
+        }
+
+        this._showAppsIcon.icon.setIconSize(this.iconSize);
+        this.showAppsButton.add_style_class_name('dash-in-panel-show-apps-button');
+        this.showAppsButton.track_hover = true;
+
+        this.showAppsButton.connectObject('clicked', this._onShowAppsClick.bind(this), this);
+    }
+
+    _setVisible(item) {
+        item.visible = item.child.app?.state == Shell.AppState.RUNNING;
+        item.child._dot.visible = false;
     }
 
     _onClicked(button, item) {

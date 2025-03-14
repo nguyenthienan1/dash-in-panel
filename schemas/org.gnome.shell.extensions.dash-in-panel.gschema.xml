@@ -23,6 +23,11 @@
         <summary>Show app label on hover</summary>
     </key>
 
+    <key type="b" name="show-running">
+        <default>false</default>
+        <summary>Show only running apps</summary>
+    </key>
+
     <key type="b" name="show-apps">
         <default>true</default>
         <summary>Show app grid button</summary>
