@@ -120,7 +120,6 @@ class DashPanel extends Dash.Dash {
     }
 
     _onWindowDemandsAttention() {
-        Main.notify('demands attention');
         for (let item of this._dashContainer.first_child?.get_children()) {
             let appDemandsAttention = item.child?.app?.get_windows().some(window => window.demands_attention);
 
