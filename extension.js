@@ -26,6 +26,7 @@ class DashPanel extends Dash.Dash {
         this._setShowAppsButton();
 
         this._box.connectObject('child-added', (actor, item) => this._setStyle(item), this);
+        global.display.connectObject('notify::focus-window', this._onFocusWindowChanged.bind(this), this);
     }
 
     _setStyle(item) {
@@ -73,6 +74,8 @@ class DashPanel extends Dash.Dash {
             this._setVisible(item);
             item.child.app?.connectObject('notify::state', () => this._setVisible(item), this);
         }
+
+        this._onFocusWindowChanged();
     }
 
     _setShowAppsButton() {
@@ -91,6 +94,26 @@ class DashPanel extends Dash.Dash {
     _setVisible(item) {
         item.visible = item.child.app?.state == Shell.AppState.RUNNING;
         item.child._dot.visible = false;
+    }
+
+    _onFocusWindowChanged() {
+        for (let item of this._dashContainer.first_child?.get_children()) {
+            let activeWorkspace = global.workspace_manager.get_active_workspace()
+            let appHasFocus = item.child?.app?.get_windows().some(
+                window => window.appears_focused && window.located_on_workspace(activeWorkspace));
+
+            if (appHasFocus) {
+                if (this._settings.get_boolean('colored-dot'))
+                    item.child?.add_style_class_name('dash-in-panel-colored-focused-app');
+                else
+                    item.child?.add_style_class_name('dash-in-panel-focused-app');
+            } else {
+                if (this._settings.get_boolean('colored-dot'))
+                    item.child?.remove_style_class_name('dash-in-panel-colored-focused-app');
+                else
+                    item.child?.remove_style_class_name('dash-in-panel-focused-app');
+            }
+        }
     }
 
     _onClicked(button, item) {
@@ -140,6 +163,7 @@ class DashPanel extends Dash.Dash {
             this._timeoutLabel = null;
         }
 
+        global.display.disconnectObject(this);
         this._box?.disconnectObject(this);
         this.showAppsButton.disconnectObject(this);
         this._workId = null;
