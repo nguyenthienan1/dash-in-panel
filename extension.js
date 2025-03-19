@@ -26,7 +26,10 @@ class DashPanel extends Dash.Dash {
         this._setShowAppsButton();
 
         this._box.connectObject('child-added', (actor, item) => this._setStyle(item), this);
-        global.display.connectObject('notify::focus-window', this._onFocusWindowChanged.bind(this), this);
+        global.display.connectObject(
+            'notify::focus-window', this._onFocusWindowChanged.bind(this),
+            'window-demands-attention', this._onWindowDemandsAttention.bind(this),
+            this);
     }
 
     _setStyle(item) {
@@ -116,7 +119,19 @@ class DashPanel extends Dash.Dash {
         }
     }
 
+    _onWindowDemandsAttention() {
+        Main.notify('demands attention');
+        for (let item of this._dashContainer.first_child?.get_children()) {
+            let appDemandsAttention = item.child?.app?.get_windows().some(window => window.demands_attention);
+
+            if (appDemandsAttention)
+                item.child?.add_style_class_name('dash-in-panel-demands-attention-app');
+        }
+    }
+
     _onClicked(button, item) {
+        item.child?.remove_style_class_name('dash-in-panel-demands-attention-app');
+
         let event = Clutter.get_current_event();
         let modifiers = event ? event.get_state() : 0;
         let isMiddleButton = button && button === Clutter.BUTTON_MIDDLE;

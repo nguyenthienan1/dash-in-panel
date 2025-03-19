@@ -32,6 +32,10 @@
   box-shadow: 0 0 0 st-transparentize(-st-accent-color, 0.3);
 }
 
+.dash-in-panel-demands-attention-app {
+  box-shadow: 0 0 0 st-transparentize(red, 0.3);
+}
+
 .dash-in-panel-separator {
   margin-right: 8px;
   margin-left: 8px;
