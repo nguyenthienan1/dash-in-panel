@@ -28,6 +28,7 @@ class DashPanel extends Dash.Dash {
         this._box.connectObject('child-added', (actor, item) => this._setStyle(item), this);
         global.display.connectObject(
             'notify::focus-window', this._onFocusWindowChanged.bind(this),
+            'notify::urgent', this._onWindowDemandsAttention.bind(this),
             'window-demands-attention', this._onWindowDemandsAttention.bind(this),
             this);
     }
