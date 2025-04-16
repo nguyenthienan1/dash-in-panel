@@ -92,9 +92,7 @@ class DashPanel extends Dash.Dash {
         this.showAppsButton.add_style_class_name('dash-in-panel-show-apps-button');
         this.showAppsButton.track_hover = true;
 
-        let showAppsIcon = this.showAppsButton.get_parent();
-        this._dashContainer.remove_child(showAppsIcon);
-        this._dashContainer.insert_child_at_index(showAppsIcon, 0);
+        this._dashContainer.set_child_at_index(this.showAppsButton.get_parent(), 0);
 
         this.showAppsButton.connectObject('clicked', this._onShowAppsClick.bind(this), this);
     }
