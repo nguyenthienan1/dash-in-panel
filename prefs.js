@@ -38,6 +38,13 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         groupGlobal.add(moveDate);
         window._settings.bind('move-date', moveDate, 'active', Gio.SettingsBindFlags.DEFAULT);
 
+        const centerDash = new Adw.SwitchRow({
+            title: 'Move dash to the center',
+            subtitle: 'Dash is by default located at the left',
+        });
+        groupGlobal.add(centerDash);
+        window._settings.bind('center-dash', centerDash, 'active', Gio.SettingsBindFlags.DEFAULT);
+
 
         const groupPanel = new Adw.PreferencesGroup();
         page.add(groupPanel);

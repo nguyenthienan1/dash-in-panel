@@ -18,6 +18,11 @@
         <summary>Move date menu to the right</summary>
     </key>
 
+    <key type="b" name="center-dash">
+        <default>false</default>
+        <summary>Move dash to the center</summary>
+    </key>
+
     <key type="b" name="show-label">
         <default>true</default>
         <summary>Show app label on hover</summary>

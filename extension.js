@@ -265,7 +265,10 @@ export default class DashInPanelExtension extends Extension {
             Main.layoutManager.connectObject('startup-complete', () => Main.overview.hide(), this);
 
         this._dashButton = new DashButton(this._settings);
-        Main.panel.addToStatusArea('dash', this._dashButton, -1, 'left');
+        if (this._settings.get_boolean('center-dash'))
+            Main.panel.addToStatusArea('dash', this._dashButton, -1, 'center');
+        else
+            Main.panel.addToStatusArea('dash', this._dashButton, -1, 'left');
 
         this._settings.connectObject('changed', this._restart.bind(this), this);
         Main.layoutManager.connectObject('monitors-changed', this._restart.bind(this), this);
