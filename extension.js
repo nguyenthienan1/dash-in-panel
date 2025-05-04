@@ -13,6 +13,8 @@ import * as PanelMenu from 'resource:///org/gnome/shell/ui/panelMenu.js';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 
 
+const INACTIVE_WORKSPACE_DOT_OPACITY = 168;
+
 const DashPanel = GObject.registerClass(
 class DashPanel extends Dash.Dash {
     _init(settings) {
@@ -31,6 +33,12 @@ class DashPanel extends Dash.Dash {
             'notify::urgent', this._onWindowDemandsAttention.bind(this),
             'window-demands-attention', this._onWindowDemandsAttention.bind(this),
             this);
+
+        this._onFocusWindowChanged();
+        if (this._settings.get_boolean('dim-dot')) {
+            this._setDotsOpacity();
+            global.workspace_manager.connectObject('active-workspace-changed', this._setDotsOpacity.bind(this), this);
+        }
     }
 
     _setStyle(item) {
@@ -78,8 +86,6 @@ class DashPanel extends Dash.Dash {
             this._setVisible(item);
             item.child.app?.connectObject('notify::state', () => this._setVisible(item), this);
         }
-
-        this._onFocusWindowChanged();
     }
 
     _setShowAppsButton() {
@@ -97,14 +103,27 @@ class DashPanel extends Dash.Dash {
         this.showAppsButton.connectObject('clicked', this._onShowAppsClick.bind(this), this);
     }
 
+    _setDotsOpacity() {
+        let activeWorkspace = global.workspace_manager.get_active_workspace();
+
+        for (let item of this._dashContainer.last_child?.get_children()) {
+            let app_is_on_active_workspace = item.child?.app?.is_on_workspace(activeWorkspace);
+
+            if (app_is_on_active_workspace)
+                item.child?._dot?.set_opacity(255);
+            else
+                item.child?._dot?.set_opacity(INACTIVE_WORKSPACE_DOT_OPACITY);
+        }
+    }
+
     _setVisible(item) {
         item.visible = item.child.app?.state == Shell.AppState.RUNNING;
         item.child._dot.visible = false;
     }
 
     _onFocusWindowChanged() {
-        for (let item of this._dashContainer.first_child?.get_children()) {
-            let activeWorkspace = global.workspace_manager.get_active_workspace()
+        for (let item of this._dashContainer.last_child?.get_children()) {
+            let activeWorkspace = global.workspace_manager.get_active_workspace();
             let appHasFocus = item.child?.app?.get_windows().some(
                 window => window.appears_focused && window.located_on_workspace(activeWorkspace));
 
@@ -113,6 +132,8 @@ class DashPanel extends Dash.Dash {
                     item.child?.add_style_class_name('dash-in-panel-colored-focused-app');
                 else
                     item.child?.add_style_class_name('dash-in-panel-focused-app');
+
+                item.child?._dot?.set_opacity(255);
             } else {
                 if (this._settings.get_boolean('colored-dot'))
                     item.child?.remove_style_class_name('dash-in-panel-colored-focused-app');
@@ -123,7 +144,7 @@ class DashPanel extends Dash.Dash {
     }
 
     _onWindowDemandsAttention() {
-        for (let item of this._dashContainer.first_child?.get_children()) {
+        for (let item of this._dashContainer.last_child?.get_children()) {
             let appDemandsAttention = item.child?.app?.get_windows().some(window => window.demands_attention);
 
             if (appDemandsAttention)
@@ -181,6 +202,7 @@ class DashPanel extends Dash.Dash {
         }
 
         global.display.disconnectObject(this);
+        global.workspace_manager.disconnectObject(this);
         this._box?.disconnectObject(this);
         this.showAppsButton.disconnectObject(this);
         this._workId = null;

@@ -55,6 +55,12 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         groupPanel.add(showRunning);
         window._settings.bind('show-running', showRunning, 'active', Gio.SettingsBindFlags.DEFAULT);
 
+        const dimDot = new Adw.SwitchRow({
+            title: 'Dim running app indicator opacity when not on active workspace',
+        });
+        groupPanel.add(dimDot);
+        window._settings.bind('dim-dot', dimDot, 'active', Gio.SettingsBindFlags.DEFAULT);
+
         const showApps = new Adw.SwitchRow({
             title: 'Show app grid button',
         });

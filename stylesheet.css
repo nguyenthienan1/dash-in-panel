@@ -25,11 +25,11 @@
 }
 
 .dash-in-panel-focused-app {
-  box-shadow: 0 0 0 rgba(142, 142, 142, 0.7);
+  box-shadow: 0 0 0 rgba(142, 142, 142, 0.5);
 }
 
 .dash-in-panel-colored-focused-app {
-  box-shadow: 0 0 0 st-transparentize(-st-accent-color, 0.3);
+  box-shadow: 0 0 0 st-transparentize(-st-accent-color, 0.5);
 }
 
 .dash-in-panel-demands-attention-app {

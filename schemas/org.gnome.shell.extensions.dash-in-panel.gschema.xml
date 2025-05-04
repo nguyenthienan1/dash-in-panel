@@ -33,6 +33,11 @@
         <summary>Show only running apps</summary>
     </key>
 
+    <key type="b" name="dim-dot">
+        <default>false</default>
+        <summary>Dim running app indicator opacity when not on active workspace</summary>
+    </key>
+
     <key type="b" name="show-apps">
         <default>true</default>
         <summary>Show app grid button</summary>
