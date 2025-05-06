@@ -169,10 +169,54 @@ class DashPanel extends Dash.Dash {
         if (openNewWindow)
             item.child.app?.open_new_window(-1);
         else {
-            if (Shell.WindowTracker.get_default().focus_app === item.child.app)
-                global.display.focus_window?.minimize();
-            else
-                item.child.app?.activate();
+            if (this._settings.get_boolean('cycle-windows')) {
+                let app_windows = item.child.app
+                    .get_windows()
+                    .filter(window =>
+                        !window.is_override_redirect()
+                        && !window.is_attached_dialog()
+                        && window.located_on_workspace(global.workspace_manager.get_active_workspace()))
+                    .sort((window1, window2) => window1.get_id() - window2.get_id());
+
+                switch (app_windows.length) {
+                    case 0:
+                        item.child.app.activate();
+                    break;
+                    case 1:
+                        if (app_windows[0].has_focus() && app_windows[0].can_minimize()) {
+                            app_windows[0].minimize();
+                        } else {
+                            if (!app_windows[0].has_focus()) {
+                                app_windows[0].activate(global.get_current_time());
+                            }
+                        }
+                    break;
+                    default:
+                        if (Main.overview.visible) {
+                            this.app.activate();
+                        } else {
+                            let app_has_focus = false;
+                            let app_focused_window_index = 0;
+                            for (let index = 0; index < app_windows.length; index++) {
+                                if (app_windows[index].has_focus()) {
+                                    app_has_focus = true;
+                                    app_focused_window_index = index;
+                                }
+                            }
+
+                            if (app_has_focus) {
+                                let next_index = (app_focused_window_index + 1) % app_windows.length;
+                                item.child.app.activate_window(app_windows[next_index], global.get_current_time());
+                            } else
+                                item.child.app.activate();
+                        }
+                }
+            } else {
+                if (Shell.WindowTracker.get_default().focus_app === item.child.app)
+                    global.display.focus_window?.minimize();
+                else
+                    item.child.app?.activate();
+            }
         }
 
         Main.overview.hide();

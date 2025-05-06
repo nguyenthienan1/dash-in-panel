@@ -80,11 +80,18 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
         window._settings.bind('scroll-panel', scrollPanel, 'active', Gio.SettingsBindFlags.DEFAULT);
 
         const clickChanged = new Adw.SwitchRow({
-            title: 'Minimize focus app on click',
-            subtitle: 'This is disabled in original dash',
+            title: 'Modified click behavior',
+            subtitle: 'Minimize focus app on click. This is disabled in original dash',
         });
         groupPanel.add(clickChanged);
         window._settings.bind('click-changed', clickChanged, 'active', Gio.SettingsBindFlags.DEFAULT);
+
+        const cycleWindows = new Adw.SwitchRow({
+            title: 'Cycle through windows',
+            subtitle: 'Modified click behavior needs to be activated\nCycle if app has many windows in current workspace',
+        });
+        groupPanel.add(cycleWindows);
+        window._settings.bind('cycle-windows', cycleWindows, 'active', Gio.SettingsBindFlags.DEFAULT);
 
 
         const groupStyle = new Adw.PreferencesGroup();

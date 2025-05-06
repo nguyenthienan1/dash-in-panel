@@ -53,6 +53,11 @@
         <summary>Minimize focus app on click</summary>
     </key>
 
+    <key type="b" name="cycle-windows">
+        <default>true</default>
+        <summary>Cycle through windows</summary>
+    </key>
+
     <key type="b" name="colored-dot">
         <default>true</default>
         <summary>Colored running indicator</summary>
