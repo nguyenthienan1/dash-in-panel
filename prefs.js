@@ -81,7 +81,7 @@ export default class PowerProfilePreferences extends ExtensionPreferences {
 
         const clickChanged = new Adw.SwitchRow({
             title: 'Modified click behavior',
-            subtitle: 'Minimize focus app on click. This is disabled in original dash',
+            subtitle: 'Minimize focus app on click\nThis is disabled in original dash',
         });
         groupPanel.add(clickChanged);
         window._settings.bind('click-changed', clickChanged, 'active', Gio.SettingsBindFlags.DEFAULT);
